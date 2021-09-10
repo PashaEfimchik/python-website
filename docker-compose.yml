@@ -1,0 +1,28 @@
+
+services:
+  db:
+    image: mysql:latest
+    restart: always
+    container_name: db
+    environment: 
+      MYSQL_DATABASE: my_db
+      MYSQL_USER: mydb
+      MYSQL_PASSWORD: qwerty123
+      MYSQL_ROOT_PASSWORD: root
+    volumes: 
+      - .dbdata:/var/lib/mysql
+    ports:
+      - 30000:3386
+      
+  website:
+    build:
+      context: . 
+      dockerfile: Dockerfile
+    image: pashaefimchik/website:latest 
+    container_name: website
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - 5000:5000
+      
